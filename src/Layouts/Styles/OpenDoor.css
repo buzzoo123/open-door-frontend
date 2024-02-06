@@ -1,0 +1,143 @@
+.openDoorContainer {
+  /*background: url("../../resources/1900\ jpa\ v2.png");*/
+  background: url("https://source.unsplash.com/random?wallpapers");
+  background-size: 100vw 100vh;
+  height: 100vh;
+  width: 100vw;
+}
+
+@media only screen and (min-width: 768px) {
+  .cardContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40vw;
+    height: 60vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+  }
+
+  .cardArea {
+    height: 80%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 0.1vh solid grey;
+    border-radius: 4vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+  }
+
+  .row {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    flex: 1;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+  }
+
+  .authRow {
+    display: flex;
+    justify-content: center;
+    width: 60%;
+    flex: 1;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+  }
+
+  .submitButton {
+    height: 7vh;
+    margin-top: 3vh;
+  }
+
+  .instructionText {
+    text-align: center;
+    margin-top: -1vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .cardContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .card {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90vw;
+    height: 60vh;
+  }
+
+  .cardArea {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+    height: 80%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 0.1vh solid grey;
+    border-radius: 4vh;
+  }
+
+  .row {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    flex: 1;
+  }
+
+  .authRow {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+    display: flex;
+    justify-content: center;
+    width: 60%;
+    flex: 1;
+  }
+
+  .submitButton {
+    height: 7vh;
+    margin-top: 3vh;
+  }
+
+  .instructionText {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+    text-align: center;
+    margin-top: -1vh;
+  }
+}

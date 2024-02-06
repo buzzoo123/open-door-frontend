@@ -2,9 +2,10 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAuth } from "../Auth/authProvider";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import SignInSide from "../Layouts/SignInSide";
+import OpenDoor from "../Layouts/OpenDoor";
 
 const Routes = () => {
-  const { token } = useAuth();
+  const { jwtToken } = useAuth();
 
   // Define routes accessible only to authenticated users
   const routesForAuthenticatedOnly = [
@@ -14,11 +15,7 @@ const Routes = () => {
       children: [
         {
           path: "/opendoor",
-          element: <div>OpeningDoor</div>,
-        },
-        {
-          path: "/logout",
-          element: <div>Logout</div>,
+          element: <OpenDoor />,
         },
       ],
     },
@@ -38,7 +35,7 @@ const Routes = () => {
 
   // Combine and conditionally include routes based on authentication status
   const router = createBrowserRouter([
-    ...(!token ? routesForNotAuthenticatedOnly : []),
+    ...(!jwtToken ? routesForNotAuthenticatedOnly : []),
     ...routesForAuthenticatedOnly,
   ]);
 

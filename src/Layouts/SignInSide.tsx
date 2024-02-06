@@ -40,7 +40,7 @@ const defaultTheme = createTheme();
 
 export default function SignInSide() {
   const navigate = useNavigate();
-  const { setToken } = useAuth();
+  const { setAuthData } = useAuth();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,7 +52,10 @@ export default function SignInSide() {
   };
 
   const handleLogin = () => {
-    setToken("12345");
+    setAuthData({
+      jwtToken:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkRpbGxhbiBLaHVyYW5hIiwiaWF0IjoxNTE2MjM5MDIyfQ.3INSQYjOizLFIde7wTKNdxKDqyVV7JfAJ4LzkmU2Rzo",
+    });
     navigate("/opendoor");
   };
 
