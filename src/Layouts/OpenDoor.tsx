@@ -1,33 +1,57 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAuth } from "../Auth/authProvider";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import { useEffect, useState } from "react";
 import "./Styles/OpenDoor.css";
-import { MuiOtpInput } from "mui-one-time-password-input";
-import { borders } from "@mui/system";
+import LogoutIcon from "@mui/icons-material/Logout";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import axios from "axios";
+import PinInput from "react-pin-input";
+import Alert from "@mui/material/Alert";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
+const backendRoute = process.env.REACT_APP_BACKEND_ROUTE;
+
 export default function OpenDoor() {
-  const { user } = useAuth();
+  const { user, clearAuthData, jwtToken } = useAuth();
 
   const [otp, setOtp] = useState("");
+  const [pinMessage, setPinMessage] = useState("");
+  const [pinError, setPinError] = useState(false);
 
-  const handleChange = (newValue: any) => {
+  const handleChange = (newValue: any, index: any) => {
     setOtp(newValue);
+  };
+
+  const handleLogout = () => {
+    clearAuthData();
+  };
+
+  const handleOpenDoor = () => {
+    const postData = {
+      username: user,
+      pin: otp,
+    };
+    axios
+      .post(backendRoute + "/opendoor", JSON.stringify(postData), {
+        headers: {
+          "Content-Type": "application/json",
+          //Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then(function (response) {
+        setPinError(!response.data.success);
+        setPinMessage(response.data.message);
+      })
+      .catch(function (error) {
+        setPinError(!error.data.success);
+        setPinMessage(error.data.message);
+      });
   };
 
   return (
@@ -40,14 +64,56 @@ export default function OpenDoor() {
               <div className="row">
                 <div className="instructionText">
                   <h1>{user}</h1>
-                  <p>Enter the code sent to your phone</p>
+                  <p>Enter your 4-digit door pin</p>
                 </div>
               </div>
               <div className="authRow">
-                <MuiOtpInput value={otp} onChange={handleChange} length={6} />
+                <PinInput
+                  length={4}
+                  initialValue=""
+                  secret
+                  secretDelay={100}
+                  onChange={(value, index) => {
+                    handleChange(value, index);
+                  }}
+                  type="numeric"
+                  inputMode="number"
+                  style={{ padding: "10px" }}
+                  inputStyle={{ borderColor: "grey" }}
+                  inputFocusStyle={{ borderColor: "blue" }}
+                  onComplete={(value, index) => {}}
+                  autoSelect={true}
+                  regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
+                />
+                {pinMessage.length > 0 && (
+                  <Alert
+                    style={{ width: "65%" }}
+                    severity={pinError ? "error" : "success"}
+                  >
+                    {pinMessage}
+                  </Alert>
+                )}
               </div>
-              <div className="row">
-                <Button className="submitButton">Open Door</Button>
+              <div className="buttonRow" style={{ marginTop: "-5vh" }}>
+                <Button
+                  variant="outlined"
+                  startIcon={<LogoutIcon />}
+                  color="error"
+                  className="submitButton"
+                  size="small"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+                <Button
+                  variant="outlined"
+                  endIcon={<MeetingRoomIcon />}
+                  size="small"
+                  className="submitButton"
+                  onClick={handleOpenDoor}
+                >
+                  Open
+                </Button>
               </div>
             </div>
           </Card>

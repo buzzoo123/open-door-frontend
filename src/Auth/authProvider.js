@@ -22,7 +22,7 @@ const authReducer = (state, action) => {
 
       // Extract user information from JWT payload
       const decodedToken = jwtDecode(action.payload.jwtToken); // Assuming you are using a library like jwt_decode
-      const user = decodedToken.name; // Change "name" to the actual key in your JWT payload
+      const user = decodedToken.sub; // Change "name" to the actual key in your JWT payload
 
       // Update the state with the new token and user
       return {
@@ -48,13 +48,21 @@ const authReducer = (state, action) => {
   }
 };
 
-// Initial state for the authentication context
-const initialData = {
-  jwtToken: localStorage.getItem("jwtToken"),
-  user: localStorage.getItem("jwtToken")
-    ? jwtDecode(localStorage.getItem("jwtToken")).name
-    : null,
-};
+// Initial state for the authentication context -> checks for expiration as well
+const initialData =
+  localStorage.getItem("jwtToken") &&
+  jwtDecode(localStorage.getItem("jwtToken")).exp >= Date.now() / 1000
+    ? //current time
+      {
+        jwtToken: localStorage.getItem("jwtToken"),
+        user: localStorage.getItem("jwtToken")
+          ? jwtDecode(localStorage.getItem("jwtToken")).sub
+          : null,
+      }
+    : {
+        jwtToken: null,
+        user: null,
+      };
 
 // AuthProvider component to provide the authentication context to children
 export const AuthProvider = ({ children }) => {

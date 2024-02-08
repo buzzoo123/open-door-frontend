@@ -16,6 +16,10 @@ import { useAuth } from "../Auth/authProvider";
 import { Navigate, Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import futureImage from "../resources/futureOpenDoor.png";
+
+const backendRoute = process.env.REACT_APP_BACKEND_ROUTE;
 
 function Copyright(props: any) {
   return (
@@ -45,18 +49,25 @@ export default function SignInSide() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
+    const postData = {
+      username: data.get("username"),
       password: data.get("password"),
-    });
-  };
-
-  const handleLogin = () => {
-    setAuthData({
-      jwtToken:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkRpbGxhbiBLaHVyYW5hIiwiaWF0IjoxNTE2MjM5MDIyfQ.3INSQYjOizLFIde7wTKNdxKDqyVV7JfAJ4LzkmU2Rzo",
-    });
-    navigate("/opendoor");
+    };
+    axios
+      .post(backendRoute + "/login", JSON.stringify(postData), {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(function (response) {
+        setAuthData({
+          jwtToken: response.data.access_token,
+        });
+        navigate("/opendoor");
+      })
+      .catch(function (error) {
+        alert(
+          "Please check your username and password and try again.\n" + error
+        );
+      });
   };
 
   return (
@@ -69,8 +80,7 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              "url(https://source.unsplash.com/random?wallpapers)",
+            backgroundImage: `url(${futureImage})`, // Assuming the image file is named "your-image.jpg",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -106,10 +116,10 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
                 autoFocus
               />
               <TextField
@@ -131,21 +141,12 @@ export default function SignInSide() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                onClick={handleLogin}
               >
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
+                <Grid item xs></Grid>
+                <Grid item></Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />
             </Box>
